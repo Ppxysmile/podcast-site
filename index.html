@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PodWave - Your Personal Podcast App</title>
+    <meta name="description" content="A beautiful podcast player for daily listening - morning and night">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Global Loading Indicator -->
+    <div id="globalLoader" class="global-loader" style="display: none;">
+        <div class="loader-spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🎧</span>
+                    <span class="logo-text">PodWave</span>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-view="discover">Discover</button>
+                    <button class="nav-btn" data-view="library">Library</button>
+                    <button class="nav-btn" data-view="history">History</button>
+                </nav>
+                <div class="header-actions">
+                    <button class="icon-btn" id="darkModeToggle" title="Dark Mode">🌙</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Discover View -->
+            <section class="view active" id="discoverView">
+                <div class="view-header">
+                    <h1>Discover Podcasts</h1>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search podcasts...">
+                        <button class="search-btn" id="searchBtn">🔍</button>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="categories">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="治愈">💚 Healing</button>
+                    <button class="category-btn" data-category="励志">💪 Motivation</button>
+                    <button class="category-btn" data-category="财经">💰 Finance</button>
+                    <button class="category-btn" data-category="新闻">📰 News</button>
+                    <button class="category-btn" data-category="科技">🚀 Tech</button>
+                    <button class="category-btn" data-category="游戏">🎮 Gaming</button>
+                    <button class="category-btn" data-category="心理">🧠 Psychology</button>
+                </div>
+
+                <!-- Podcast Grid -->
+                <div class="podcast-grid" id="podcastGrid">
+                    <!-- Podcasts will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Library View -->
+            <section class="view" id="libraryView">
+                <div class="view-header">
+                    <h1>My Library</h1>
+                </div>
+                <div class="podcast-grid" id="libraryGrid">
+                    <!-- Favorite podcasts -->
+                </div>
+                <div class="empty-state" id="libraryEmpty" style="display: none;">
+                    <p>No favorites yet</p>
+                    <button class="btn-primary" onclick="switchView('discover')">Discover</button>
+                </div>
+            </section>
+
+            <!-- History View -->
+            <section class="view" id="historyView">
+                <div class="view-header">
+                    <h1>History</h1>
+                    <button class="btn-text" id="clearHistory">Clear</button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <!-- History items -->
+                </div>
+                <div class="empty-state" id="historyEmpty" style="display: none;">
+                    <p>No history yet</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Player Bar -->
+        <div class="player-bar" id="playerBar">
+            <div class="player-info" id="playerInfo">
+                <div class="player-cover" id="playerCover"></div>
+                <div class="player-details">
+                    <div class="player-title" id="playerTitle">Select an episode to play</div>
+                    <div class="player-podcast" id="playerPodcast">-</div>
+                </div>
+            </div>
+
+            <div class="player-controls">
+                <div class="control-buttons">
+                    <button class="control-btn" id="shuffleBtn" title="Shuffle">🔀</button>
+                    <button class="control-btn" id="prevBtn" title="Previous">⏮️</button>
+                    <button class="control-btn play-btn" id="playBtn" title="Play">▶️</button>
+                    <button class="control-btn" id="nextBtn" title="Next">⏭️</button>
+                    <button class="control-btn" id="loopBtn" title="Loop">🔁</button>
+                </div>
+                <div class="progress-container">
+                    <span class="time current" id="currentTime">00:00</span>
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                        <div class="progress-handle" id="progressHandle"></div>
+                    </div>
+                    <span class="time duration" id="duration">00:00</span>
+                </div>
+            </div>
+
+            <div class="player-extras">
+                <div class="speed-control">
+                    <button class="icon-btn" id="speedBtn" title="Speed">1x</button>
+                    <div class="speed-menu" id="speedMenu">
+                        <button class="speed-option" data-speed="0.5">0.5x</button>
+                        <button class="speed-option" data-speed="0.75">0.75x</button>
+                        <button class="speed-option active" data-speed="1">1x</button>
+                        <button class="speed-option" data-speed="1.25">1.25x</button>
+                        <button class="speed-option" data-speed="1.5">1.5x</button>
+                        <button class="speed-option" data-speed="2">2x</button>
+                    </div>
+                </div>
+                <div class="volume-control">
+                    <button class="icon-btn" id="volumeBtn" title="Volume">🔊</button>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80">
+                </div>
+                <button class="icon-btn" id="timerBtn" title="Timer">⏱️</button>
+                <button class="icon-btn favorite-btn" id="favoriteBtn" title="Favorite">🤍</button>
+            </div>
+        </div>
+
+        <!-- Timer Modal -->
+        <div class="modal" id="timerModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Sleep Timer</h3>
+                    <button class="close-btn" onclick="closeTimerModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="timer-options">
+                        <button class="timer-option" data-minutes="15">15 min</button>
+                        <button class="timer-option" data-minutes="30">30 min</button>
+                        <button class="timer-option" data-minutes="45">45 min</button>
+                        <button class="timer-option" data-minutes="60">1 hour</button>
+                        <button class="timer-option" data-minutes="90">1.5 hours</button>
+                        <button class="timer-option" data-minutes="0">Off</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add RSS Modal -->
+        <div class="modal" id="addRssModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Custom RSS</h3>
+                    <button class="close-btn" onclick="closeAddRssModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="rssUrlInput" placeholder="RSS Feed URL...">
+                    <input type="text" id="rssTitleInput" placeholder="Podcast Title (optional)">
+                    <select id="rssCategoryInput" style="width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-primary); color: var(--text-primary);">
+                        <option value="Other">Select Category</option>
+                        <option value="治愈">💚 Healing</option>
+                        <option value="励志">💪 Motivation</option>
+                        <option value="财经">💰 Finance</option>
+                        <option value="新闻">📰 News</option>
+                        <option value="科技">🚀 Tech</option>
+                        <option value="游戏">🎮 Gaming</option>
+                        <option value="心理">🧠 Psychology</option>
+                        <option value="其他">Other</option>
+                    </select>
+                    <button class="btn-primary" id="addRssBtn" style="width: 100%; margin-top: 12px;">Add Podcast</button>
+                    <p class="help-text">Example: https://feeds.example.com/podcast.xml</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Podcast FAB -->
+    <button class="add-podcast-btn" onclick="showAddRssModal()" title="Add Podcast">+</button>
+
+    <script src="app.js"></script>
+</body>
+</html>
