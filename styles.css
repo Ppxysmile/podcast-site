@@ -254,8 +254,15 @@ body.dark-mode .header {
 
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: var(--space-md);
+}
+
+@media (max-width: 480px) {
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-sm);
+    }
 }
 
 .category-card {
@@ -311,10 +318,30 @@ body.dark-mode .category-card {
     margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+    .podcast-section {
+        padding: 0 var(--space-md) var(--space-lg);
+    }
+}
+
 .podcast-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+    .podcast-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
+    }
+}
+
+@media (max-width: 380px) {
+    .podcast-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm);
+    }
 }
 
 .podcast-card {
@@ -1081,38 +1108,278 @@ body.dark-mode .player-collapse-bar {
 
 /* ==================== Responsive ==================== */
 @media (max-width: 768px) {
-    .header-nav {
-        display: none;
+    /* Header - mobile optimized */
+    .header-content {
+        padding: 0 var(--space-md);
+        height: 48px;
     }
 
+    .logo {
+        font-size: 18px;
+    }
+
+    .logo-icon {
+        font-size: 20px;
+    }
+
+    .header-actions {
+        gap: var(--space-sm);
+    }
+
+    .icon-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    /* Hero - mobile optimized */
     .hero {
-        padding: var(--space-xxl) var(--space-md);
+        padding: var(--space-xl) var(--space-md);
     }
 
     .hero-title {
-        font-size: 36px;
+        font-size: 28px;
+        margin-bottom: var(--space-md);
+    }
+
+    .hero-subtitle {
+        font-size: 15px;
+        padding: 0 var(--space-sm);
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        gap: var(--space-sm);
+        margin-top: var(--space-lg);
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Categories - mobile optimized */
+    .categories {
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .section-header {
+        margin-bottom: var(--space-md);
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    .section-subtitle {
+        font-size: 13px;
     }
 
     .category-grid {
         grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-sm);
+    }
+
+    .category-card {
+        aspect-ratio: 1;
+        border-radius: var(--radius-md);
+    }
+
+    .category-icon {
+        font-size: 28px;
+    }
+
+    .category-name {
+        font-size: 11px;
+    }
+
+    /* Podcast Grid - mobile optimized */
+    .podcast-section {
+        padding: 0 var(--space-md) var(--space-xl);
     }
 
     .podcast-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
     }
 
+    .podcast-card {
+        border-radius: var(--radius-md);
+    }
+
+    .podcast-cover {
+        border-radius: var(--radius-sm);
+    }
+
+    .podcast-info {
+        padding: var(--space-sm);
+    }
+
+    .podcast-title {
+        font-size: 13px;
+    }
+
+    .podcast-meta {
+        font-size: 11px;
+    }
+
+    .podcast-actions {
+        padding: 0 var(--space-sm) var(--space-sm);
+    }
+
+    .podcast-action-btn {
+        font-size: 11px;
+        padding: 6px;
+    }
+
+    /* Search - mobile optimized */
+    .search-container {
+        margin-bottom: var(--space-md);
+    }
+
+    .search-input {
+        padding: 12px 14px 12px 40px;
+        font-size: 14px;
+    }
+
+    .search-icon {
+        left: 14px;
+        font-size: 14px;
+    }
+
+    /* Player - mobile optimized */
     .player-content {
         grid-template-columns: 1fr;
-        gap: var(--space-md);
+        gap: var(--space-sm);
+        padding: var(--space-sm) 0;
     }
 
     .player-extra {
         display: none;
     }
 
+    .player-buttons {
+        gap: var(--space-md);
+    }
+
+    .player-btn.play-pause {
+        width: 36px;
+        height: 36px;
+    }
+
+    .progress-container {
+        padding: 0 var(--space-sm);
+    }
+
+    /* Modal - mobile optimized */
     .modal {
         width: 95%;
-        max-height: 90vh;
+        max-height: 85vh;
+        border-radius: var(--radius-lg);
+    }
+
+    .modal-header {
+        padding: var(--space-md);
+    }
+
+    .modal-title {
+        font-size: 18px;
+    }
+
+    .modal-body {
+        padding: var(--space-md);
+        max-height: calc(85vh - 100px);
+    }
+
+    /* Episode list - mobile optimized */
+    .episode-item {
+        padding: var(--space-sm);
+        gap: var(--space-sm);
+    }
+
+    .episode-play-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .episode-title {
+        font-size: 13px;
+    }
+
+    /* Tabs - mobile optimized */
+    .tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: var(--space-xs);
+    }
+
+    .tab {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    /* Toast - mobile adjusted */
+    .toast-container {
+        bottom: 80px;
+    }
+
+    .toast {
+        font-size: 13px;
+        padding: 10px 20px;
+    }
+}
+
+/* Extra small screens (iPhone SE, small Android) */
+@media (max-width: 380px) {
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+    }
+
+    .category-icon {
+        font-size: 24px;
+    }
+
+    .category-name {
+        font-size: 10px;
+    }
+
+    .podcast-grid {
+        gap: var(--space-sm);
+    }
+
+    .podcast-title {
+        font-size: 12px;
+        -webkit-line-clamp: 1;
+    }
+}
+
+/* Landscape mode on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        padding: var(--space-md);
+    }
+
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .hero-subtitle {
+        display: none;
+    }
+
+    .hero-actions {
+        flex-direction: row;
+        margin-top: var(--space-sm);
     }
 }
 
