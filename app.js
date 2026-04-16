@@ -37,7 +37,7 @@ const translations = {
         addRss: '添加 RSS',
         // Categories
         all: '全部',
-        chinese: '中文精选',
+        chinese: '精选',
         featured: '精选播客',
         featuredSub: '为你精选',
         // Player
@@ -71,8 +71,9 @@ const translations = {
         removedFromFav: '已从收藏移除',
         historyCleared: '历史记录已清除',
         timerSet: '定时已设置',
-        timerOff: '定时已关闭',
-        // Categories
+        timerSetMinutes: '定时已设置：{n} 分钟',
+        timerOffConfirm: '定时已关闭',
+        timerStopped: '定时停止，播放暂停',
         tech: '科技',
         news: '新闻',
         finance: '财经',
@@ -143,7 +144,9 @@ const translations = {
         removedFromFav: 'Removed from favorites',
         historyCleared: 'History cleared',
         timerSet: 'Timer set',
-        timerOff: 'Timer off',
+        timerSetMinutes: 'Timer set for {n} minutes',
+        timerOffConfirm: 'Timer off',
+        timerStopped: 'Timer stopped, playback paused',
         // Categories
         tech: 'Tech',
         news: 'News',
@@ -170,8 +173,14 @@ const translations = {
     }
 };
 
-function t(key) {
-    return translations[state.language][key] || key;
+function t(key, params) {
+    let text = translations[state.language][key] || key;
+    if (params) {
+        Object.keys(params).forEach(param => {
+            text = text.replace(`{${param}}`, params[param]);
+        });
+    }
+    return text;
 }
 
 // Helper function to get display title based on language
@@ -184,64 +193,7 @@ function getPodcastTitle(podcast) {
 // ==================== Podcast RSS Feeds (Verified Working) ====================
 // Only includes podcasts with confirmed working RSS feeds and real audio content
 const defaultPodcasts = [
-    // ========== 中文精选播客 (小宇宙FM) ==========
-    {
-        id: 'wantang-late-talk',
-        title: '晚点聊 LateTalk',
-        titleZh: '晚点聊 LateTalk',
-        category: '科技',
-        categoryZh: '科技',
-        cover: '🎙️',
-        coverUrl: './covers/wantang-latetalk.png',
-        rss: 'https://www.xiaoyuzhoufm.com/podcast/61933ace1b4320461e91fd55/feed',
-        externalUrl: 'https://www.xiaoyuzhoufm.com/podcast/61933ace1b4320461e91fd55',
-        description: '由《晚点 LatePost》出品。最一手的科技访谈，最真实的从业者思考。聚焦科技、商业、创业创新领域，邀请创业者、投资人、行业从业者进行深度访谈。',
-        descriptionZh: '由《晚点 LatePost》出品。最一手的科技访谈，最真实的从业者思考。聚焦科技、商业、创业创新领域，邀请创业者、投资人、行业从业者进行深度访谈。',
-        isExternal: true
-    },
-    {
-        id: 'zhang-jun-business',
-        title: '张小珺Jùn｜商业访谈录',
-        titleZh: '张小珺Jùn｜商业访谈录',
-        category: '商业',
-        categoryZh: '商业',
-        cover: '💼',
-        coverUrl: './covers/zhangxiaojun.png',
-        rss: 'https://www.xiaoyuzhoufm.com/podcast/626b46ea9cbbf0451cf5a962/feed',
-        externalUrl: 'https://www.xiaoyuzhoufm.com/podcast/626b46ea9cbbf0451cf5a962',
-        description: '努力做中国最优质的科技、商业访谈。聚焦AI、科技巨头、风险投资、知名人物。',
-        descriptionZh: '努力做中国最优质的科技、商业访谈。聚焦AI、科技巨头、风险投资、知名人物。',
-        isExternal: true
-    },
-    {
-        id: 'luo-yonghao-crossroad',
-        title: '罗永浩的十字路口',
-        titleZh: '罗永浩的十字路口',
-        category: '人物',
-        categoryZh: '人物',
-        cover: '🎭',
-        coverUrl: './covers/luoyonghao.png',
-        rss: 'https://www.xiaoyuzhoufm.com/podcast/68981df29e7bcd326eb91d88/feed',
-        externalUrl: 'https://www.xiaoyuzhoufm.com/podcast/68981df29e7bcd326eb91d88',
-        description: '与时代浪潮中的人物展开深度对话。科技与人文领域深度播客，每集长达三到五个小时。',
-        descriptionZh: '与时代浪潮中的人物展开深度对话。科技与人文领域深度播客，每集长达三到五个小时。',
-        isExternal: true
-    },
-    {
-        id: 'crossroad-ai',
-        title: '十字路口Crossing',
-        titleZh: '十字路口Crossing',
-        category: 'AI',
-        categoryZh: 'AI',
-        cover: '🤖',
-        coverUrl: './covers/crossroad.png',
-        rss: 'https://www.xiaoyuzhoufm.com/podcast/60502e253c92d4f62c2a9577/feed',
-        externalUrl: 'https://www.xiaoyuzhoufm.com/podcast/60502e253c92d4f62c2a9577',
-        description: '聚焦于AI时代创业与变革的深度播客栏目。关注新一代AI技术浪潮带来的行业新变化和创业新机会。',
-        descriptionZh: '聚焦于AI时代创业与变革的深度播客栏目。关注新一代AI技术浪潮带来的行业新变化和创业新机会。',
-        isExternal: true
-    },
-    // ========== Verified International Podcasts ==========
+    // ========== 热门国际播客 (置顶) ==========
     {
         id: 'ted-talks-daily',
         title: 'TED Talks Daily',
@@ -275,6 +227,18 @@ const defaultPodcasts = [
         description: 'Global news, stories and features from BBC World Service. Stay informed about world events.',
         descriptionZh: 'BBC全球新闻、故事和专题报道。了解世界大事。'
     },
+    {
+        id: 'bbc-business-daily',
+        title: 'BBC Business Daily',
+        titleZh: 'BBC商业每日',
+        category: '财经',
+        cover: '📈',
+        coverUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=400&fit=crop',
+        rss: 'https://podcasts.files.bbci.co.uk/p08s8r4b.rss',
+        description: 'Daily business news and market updates from BBC. Essential listening for business professionals.',
+        descriptionZh: 'BBC每日商业新闻和市场动态。商务人士的必听内容。'
+    },
+    // ========== 更多国际播客 ==========
     {
         id: 'freakonomics-radio',
         title: 'Freakonomics Radio',
@@ -364,17 +328,6 @@ const defaultPodcasts = [
         descriptionZh: '乔希和查克深入探讨你一直想了解的话题。'
     },
     {
-        id: 'bbc-business-daily',
-        title: 'BBC Business Daily',
-        titleZh: 'BBC商业每日',
-        category: '财经',
-        cover: '📈',
-        coverUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=400&fit=crop',
-        rss: 'https://podcasts.files.bbci.co.uk/p08s8r4b.rss',
-        description: 'Daily business news and market updates from BBC. Essential listening for business professionals.',
-        descriptionZh: 'BBC每日商业新闻和市场动态。商务人士的必听内容。'
-    },
-    {
         id: 'tim-ferriss',
         title: 'The Tim Ferriss Show',
         titleZh: '蒂姆·费里斯秀',
@@ -413,6 +366,88 @@ function initApp() {
 
     // Initialize audio
     setupAudio();
+
+    // Auto-populate "精选" category with search results
+    autoPopulateFeatured();
+
+    // Setup back to top button
+    setupBackToTop();
+}
+
+function setupBackToTop() {
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (!backToTopBtn) return;
+
+    // Show/hide button based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+
+    // Hide button initially
+    backToTopBtn.classList.remove('visible');
+}
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+async function autoPopulateFeatured() {
+    const keywords = ['财经', '科技', '新闻', '政治'];
+
+    try {
+        // 获取所有关键词的搜索结果
+        const allResults = [];
+        for (const keyword of keywords) {
+            const results = await searchItunes(keyword);
+            allResults.push(...results);
+        }
+
+        // 打乱顺序
+        for (let i = allResults.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allResults[i], allResults[j]] = [allResults[j], allResults[i]];
+        }
+
+        // 去重并添加
+        allResults.forEach(podcast => {
+            if (podcast.rss && !state.podcasts.find(p => p.id === podcast.id)) {
+                state.podcasts.push({
+                    id: podcast.id,
+                    title: podcast.title,
+                    titleZh: podcast.title,
+                    category: '精选',
+                    categoryZh: '精选',
+                    cover: '🎧',
+                    coverUrl: podcast.cover,
+                    rss: podcast.rss,
+                    description: podcast.description || '',
+                    descriptionZh: podcast.description || '',
+                    isExternal: false
+                });
+            }
+        });
+
+        // 打乱精选内容的顺序
+        const featuredPodcasts = state.podcasts.filter(p => p.category === '精选');
+        for (let i = featuredPodcasts.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const originalIndex = state.podcasts.indexOf(featuredPodcasts[i]);
+            const swapIndex = state.podcasts.indexOf(featuredPodcasts[j]);
+            [state.podcasts[originalIndex], state.podcasts[swapIndex]] = [state.podcasts[swapIndex], state.podcasts[originalIndex]];
+        }
+
+        // 加载完成后重新渲染当前分类
+        renderPodcasts(state.currentCategory || 'all');
+    } catch (error) {
+        console.error('Auto populate featured failed:', error);
+    }
 }
 
 // ==================== Data Management ====================
@@ -466,7 +501,13 @@ function setupAudio() {
 function setupEventListeners() {
     // Category selection
     document.querySelectorAll('.category-card').forEach(card => {
-        card.addEventListener('click', () => selectCategory(card.dataset.category));
+        card.addEventListener('click', () => {
+            if (card.dataset.category === 'refresh') {
+                refreshAllPodcasts();
+            } else {
+                selectCategory(card.dataset.category);
+            }
+        });
     });
 
     // Navigation
@@ -524,7 +565,7 @@ function setupEventListeners() {
 function renderCategories() {
     const categoryData = [
         { key: 'all', name: '全部', icon: '✨' },
-        { key: 'chinese', name: '中文精选', icon: '🇨🇳' },
+        { key: 'chinese', name: '精选', icon: '⭐' },
         { key: '科技', name: '科技', icon: '🚀' },
         { key: '新闻', name: '新闻', icon: '📰' },
         { key: '财经', name: '财经', icon: '💰' },
@@ -549,12 +590,16 @@ function renderCategories() {
 
 function renderPodcasts(category = 'all') {
     const grid = document.getElementById('podcastGrid');
+    const mainCategories = ['科技', '新闻', '财经', '心理', '励志', '治愈'];
     let filtered;
+
+    // 默认显示精选内容
     if (category === 'all') {
-        filtered = state.podcasts;
+        // "全部"显示精选内容
+        filtered = state.podcasts.filter(p => !mainCategories.includes(p.category));
     } else if (category === 'chinese') {
-        // 中文精选 - 过滤 isExternal 为 true 的播客
-        filtered = state.podcasts.filter(p => p.isExternal === true);
+        // 精选 - 过滤不属于主要分类的播客
+        filtered = state.podcasts.filter(p => !mainCategories.includes(p.category));
     } else {
         filtered = state.podcasts.filter(p => p.category === category);
     }
@@ -578,7 +623,6 @@ function renderPodcasts(category = 'all') {
                 <h3 class="podcast-title">${getPodcastTitle(podcast)}</h3>
                 <div class="podcast-meta">
                     <span class="podcast-category-tag">${podcast.category}</span>
-                    <span>${isFavorite(podcast.id) ? '❤️' : '🤍'}</span>
                 </div>
             </div>
             <div class="podcast-actions">
@@ -787,9 +831,13 @@ async function showPodcastDetail(podcastId) {
         const episodes = await fetchEpisodes(podcast);
         document.getElementById('episodeLoading').style.display = 'none';
 
+        // Store episodes in state for playNext/playPrevious
+        state.currentEpisodeList = episodes;
+
         if (episodes.length === 0) {
             // Use demo episodes if RSS fetch fails
             const demoEpisodes = generateDemoEpisodes(podcast);
+            state.currentEpisodeList = demoEpisodes;
             renderEpisodes(demoEpisodes, podcast);
         } else {
             renderEpisodes(episodes, podcast);
@@ -798,6 +846,7 @@ async function showPodcastDetail(podcastId) {
         console.error('Error loading episodes:', error);
         document.getElementById('episodeLoading').style.display = 'none';
         const demoEpisodes = generateDemoEpisodes(podcast);
+        state.currentEpisodeList = demoEpisodes;
         renderEpisodes(demoEpisodes, podcast);
     }
 }
@@ -910,7 +959,7 @@ function renderAboutContent(podcast) {
             <div class="about-emoji" style="${podcast.coverUrl ? 'display:none' : ''}">${podcast.cover || '🎙️'}</div>
             <div class="about-info">
                 <h3 class="about-title">${getPodcastTitle(podcast)}</h3>
-                <span class="about-category-tag">${podcast.category || '其他'}</span>
+                <span class="about-category-tag">${podcast.category || '精选'}</span>
             </div>
         </div>
         <div class="about-description">
@@ -965,7 +1014,7 @@ async function fetchEpisodes(podcast) {
 
         // Deduplicate by audioUrl - some podcasts share feeds
         const seenUrls = new Set();
-        const episodes = data.items.slice(0, 100)
+        const episodes = data.items.slice(0, 200)
             .map((item, index) => ({
                 id: `${podcast.id}-${index}-${Date.now()}`,
                 title: item.title || `Episode ${index + 1}`,
@@ -981,8 +1030,7 @@ async function fetchEpisodes(podcast) {
                 if (seenUrls.has(ep.audioUrl)) return false;
                 seenUrls.add(ep.audioUrl);
                 return true;
-            })
-            .slice(0, 50);
+            });
 
         // Cache the results
         try {
@@ -1022,45 +1070,6 @@ function formatDuration(duration) {
     return '-';
 }
 
-function parseRSS(xmlText, podcast) {
-    try {
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(xmlText, 'text/xml');
-
-        const items = xml.querySelectorAll('item');
-        if (items.length === 0) return [];
-
-        const episodes = [];
-        items.forEach((item, index) => {
-            const title = item.querySelector('title')?.textContent || `Episode ${index + 1}`;
-            const enclosure = item.querySelector('enclosure');
-            let audioUrl = enclosure?.getAttribute('url') || '';
-
-            // Skip if no audio URL
-            if (!audioUrl) return;
-
-            // Skip non-audio URLs
-            if (!audioUrl.match(/\.(mp3|m4a|ogg|wav)(\?|$)/i)) return;
-
-            const duration = item.querySelector('duration')?.textContent || '';
-            const pubDate = item.querySelector('pubDate')?.textContent || '';
-
-            episodes.push({
-                id: `${podcast.id}-${index}`,
-                title,
-                audioUrl,
-                duration: formatDuration(duration),
-                date: pubDate ? new Date(pubDate).toLocaleDateString() : ''
-            });
-        });
-
-        return episodes.slice(0, 20); // Limit to 20 episodes
-    } catch (error) {
-        console.error('RSS parsing error:', error);
-        return [];
-    }
-}
-
 // ==================== Playback ====================
 async function playPodcast(podcastId) {
     const podcast = state.podcasts.find(p => p.id === podcastId);
@@ -1077,25 +1086,24 @@ async function playPodcast(podcastId) {
     showToast(loading);
 
     // Fetch real episodes from RSS
-    const episodes = await fetchEpisodes(podcast);
+    let episodes = await fetchEpisodes(podcast);
 
-    if (episodes.length > 0) {
-        // Play first real episode with the episode list
-        playEpisodeObject(podcast, episodes[0], episodes);
-        const nowPlaying = state.language === 'zh' ? '正在播放: ' : 'Now playing: ';
-        showToast(`${nowPlaying}${episodes[0].title}`);
-    } else {
-        const noEpisodes = state.language === 'zh' ? '暂无节目，请尝试其他播客' : 'No episodes available. Try another podcast.';
-        showToast(noEpisodes);
+    // If no episodes from RSS, use demo episodes
+    if (episodes.length === 0) {
+        episodes = generateDemoEpisodes(podcast);
     }
+
+    // Play first episode with the episode list
+    playEpisodeObject(podcast, episodes[0], episodes);
+    const nowPlaying = state.language === 'zh' ? '正在播放: ' : 'Now playing: ';
+    showToast(`${nowPlaying}${episodes[0].title}`);
 }
 
 function playEpisodeById(podcastId, episodeId, episodeData) {
     const podcast = state.podcasts.find(p => p.id === podcastId);
     if (!podcast) return;
-    // Pass the current episode list if available
-    const episodeList = state.currentEpisodeList.length > 0 ? state.currentEpisodeList : null;
-    playEpisodeObject(podcast, episodeData, episodeList);
+    // Always use the current episode list from state
+    playEpisodeObject(podcast, episodeData, state.currentEpisodeList);
 }
 
 function playEpisodeObject(podcast, episode, episodeList = null) {
@@ -1277,13 +1285,6 @@ function updateProgress() {
     }
 }
 
-function seekAudio(e) {
-    const bar = document.getElementById('progressBar');
-    const rect = bar.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
-    state.audio.currentTime = percent * state.audio.duration;
-}
-
 // Floating player progress seek
 function seekFloatingAudio(e) {
     const bar = document.getElementById('floatingProgressBar');
@@ -1382,7 +1383,7 @@ function setSleepTimer(minutes) {
     state.timerRemaining = minutes * 60;
 
     if (minutes === 0) {
-        showToast('Sleep timer turned off');
+        showToast(t('timerOffConfirm'));
         closeTimerModal();
         return;
     }
@@ -1393,13 +1394,13 @@ function setSleepTimer(minutes) {
             state.audio.pause();
             state.isPlaying = false;
             updatePlayerUI();
-            showToast('Sleep timer: playback stopped');
+            showToast(t('timerStopped'));
             clearInterval(state.timerInterval);
             state.timerInterval = null;
         }
     }, 1000);
 
-    showToast(`Sleep timer set for ${minutes} minutes`);
+    showToast(t('timerSetMinutes', { n: minutes }));
     closeTimerModal();
 }
 
@@ -1408,10 +1409,10 @@ function toggleFavorite(podcastId) {
     const index = state.favorites.indexOf(podcastId);
     if (index === -1) {
         state.favorites.push(podcastId);
-        showToast('Added to favorites');
+        showToast(t('addedToFav'));
     } else {
         state.favorites.splice(index, 1);
-        showToast('Removed from favorites');
+        showToast(t('removedFromFav'));
     }
     saveUserData();
     renderPodcasts(state.currentCategory);
@@ -1450,43 +1451,83 @@ function clearHistory() {
 // ==================== Search ====================
 async function handleSearch() {
     const query = document.getElementById('searchInput').value.trim();
-    const resultsContainer = document.getElementById('searchResults');
+    const resultsSection = document.getElementById('searchResultsSection');
+    const resultsGrid = document.getElementById('searchResultsGrid');
+    const resultsTitle = document.getElementById('searchResultsTitle');
+    const resultsSubtitle = document.getElementById('searchResultsSubtitle');
+    const podcastSection = document.getElementById('podcastSection');
 
     if (!query) {
-        resultsContainer.innerHTML = '';
+        resultsSection.style.display = 'none';
+        podcastSection.style.display = 'block';
         return;
     }
 
-    resultsContainer.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+    podcastSection.style.display = 'none';
+    resultsSection.style.display = 'block';
+    resultsTitle.textContent = state.language === 'zh' ? '搜索结果' : 'Search Results';
+    resultsSubtitle.textContent = state.language === 'zh' ? '搜索中...' : 'Searching...';
+    resultsGrid.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
 
     try {
         const results = await searchItunes(query);
         if (results.length === 0) {
-            resultsContainer.innerHTML = '<div class="empty-state"><p>' + (state.language === 'zh' ? '未找到结果' : 'No results found.') + '</p></div>';
+            resultsSubtitle.textContent = state.language === 'zh' ? '找到 0 个播客' : 'Found 0 podcasts';
+            resultsGrid.innerHTML = '<div class="empty-state"><p>' + (state.language === 'zh' ? '未找到结果，请尝试其他关键词' : 'No results found. Try different keywords.') + '</p></div>';
             return;
         }
-        resultsContainer.innerHTML = results.map((podcast, index) => `
-            <div class="search-result-item" data-index="${index}">
-                <div class="search-result-cover"><img src="${podcast.cover}" alt="" onerror="this.textContent='🎧'"></div>
+
+        resultsSubtitle.textContent = state.language === 'zh' ? `找到 ${results.length} 个播客` : `Found ${results.length} podcasts`;
+
+        // Auto-add search results to state.podcasts with "精选" category
+        results.forEach(podcast => {
+            if (podcast.rss && !state.podcasts.find(p => p.id === podcast.id)) {
+                state.podcasts.push({
+                    id: podcast.id,
+                    title: podcast.title,
+                    titleZh: podcast.title,
+                    category: '精选',
+                    categoryZh: '精选',
+                    cover: '🎧',
+                    coverUrl: podcast.cover,
+                    rss: podcast.rss,
+                    description: podcast.description || '',
+                    descriptionZh: podcast.description || '',
+                    isExternal: false
+                });
+            }
+        });
+
+        resultsGrid.innerHTML = results.map((podcast) => `
+            <div class="search-result-card" data-podcast-id="${podcast.id}">
+                <div class="search-result-cover">
+                    <img src="${podcast.cover || ''}" alt="${podcast.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span class="search-result-emoji" style="display:none;">🎧</span>
+                    <div class="search-result-play-overlay">
+                        <div class="search-result-play-icon">▶️</div>
+                    </div>
+                </div>
                 <div class="search-result-info">
                     <div class="search-result-title">${podcast.title}</div>
                     <div class="search-result-artist">${podcast.artist || (state.language === 'zh' ? '未知艺术家' : 'Unknown Artist')}</div>
+                    <span class="search-result-category">精选</span>
                 </div>
             </div>
         `).join('');
 
-        // Add click handlers after rendering
-        resultsContainer.querySelectorAll('.search-result-item').forEach((item, idx) => {
-            item.addEventListener('click', () => {
-                const podcast = results[idx];
-                if (podcast.rss) {
-                    // Add to podcasts and play
+        // Add click handlers
+        resultsGrid.querySelectorAll('.search-result-card').forEach((card) => {
+            card.addEventListener('click', () => {
+                const podcastId = card.dataset.podcastId;
+                const podcast = results.find(p => p.id === podcastId);
+                if (podcast && podcast.rss) {
+                    // Add to podcasts with "精选" category
                     const newPodcast = {
                         id: podcast.id,
                         title: podcast.title,
                         titleZh: podcast.title,
-                        category: podcast.category || '其他',
-                        categoryZh: podcast.category || '其他',
+                        category: '精选',
+                        categoryZh: '精选',
                         cover: '🎧',
                         coverUrl: podcast.cover,
                         rss: podcast.rss,
@@ -1494,7 +1535,6 @@ async function handleSearch() {
                         descriptionZh: podcast.description || '',
                         isExternal: false
                     };
-                    // Check if already exists
                     if (!state.podcasts.find(p => p.id === podcast.id)) {
                         state.podcasts.push(newPodcast);
                     }
@@ -1505,12 +1545,13 @@ async function handleSearch() {
             });
         });
     } catch (error) {
-        resultsContainer.innerHTML = '<div class="empty-state"><p>' + (state.language === 'zh' ? '搜索失败，请重试' : 'Search failed. Try again.') + '</p></div>';
+        resultsSubtitle.textContent = state.language === 'zh' ? '搜索失败' : 'Search failed';
+        resultsGrid.innerHTML = '<div class="empty-state"><p>' + (state.language === 'zh' ? '搜索失败，请重试' : 'Search failed. Try again.') + '</p></div>';
     }
 }
 
 async function searchItunes(term) {
-    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(term)}&media=podcast&limit=20`;
+    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(term)}&media=podcast&limit=50`;
 
     try {
         const response = await fetch(url);
@@ -1522,7 +1563,7 @@ async function searchItunes(term) {
             artist: item.artistName || 'Unknown',
             cover: item.artworkUrl600 || item.artworkUrl100 || '🎧',
             rss: item.feedUrl || '',
-            category: '其他',
+            category: '精选',
             description: item.description || '',
             sampleAudio: item.previewUrl || ''
         }));
@@ -1621,6 +1662,7 @@ function selectCategory(category) {
     // Update section title with translations
     const titles = {
         'all': { title: t('featured'), subtitle: t('featuredSub') },
+        'chinese': { title: '精选', subtitle: '更多精选播客' },
         '科技': { title: state.language === 'zh' ? '科技' : 'Technology', subtitle: state.language === 'zh' ? '最新科技动态' : 'Latest tech news and insights' },
         '新闻': { title: state.language === 'zh' ? '新闻' : 'News', subtitle: state.language === 'zh' ? '了解时事动态' : 'Stay informed with top stories' },
         '财经': { title: state.language === 'zh' ? '财经' : 'Finance', subtitle: state.language === 'zh' ? '商业与市场' : 'Business and market coverage' },

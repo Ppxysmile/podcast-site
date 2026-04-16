@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免责声明 - PodWave</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .disclaimer-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        .disclaimer-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .disclaimer-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .disclaimer-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .disclaimer-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        body.dark-mode .disclaimer-content {
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .disclaimer-section {
+            margin-bottom: 24px;
+        }
+        .disclaimer-section:last-child {
+            margin-bottom: 0;
+        }
+        .disclaimer-section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        .disclaimer-section p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        .disclaimer-section ul {
+            margin: 12px 0;
+            padding-left: 24px;
+        }
+        .disclaimer-section li {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 32px;
+            color: var(--apple-blue);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🎧</span>
+                <span class="logo-text">PodWave</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="disclaimer-page">
+        <div class="disclaimer-header">
+            <h1>免责声明</h1>
+            <p>最后更新日期：2026年4月14日</p>
+        </div>
+
+        <div class="disclaimer-content">
+            <div class="disclaimer-section">
+                <h2>📡 内容来源</h2>
+                <p>PodWave 是一个播客内容聚合工具，我们不创建、存储或托管任何音频内容。所有播客节目均通过 RSS 订阅协议从各播客主的原始来源获取。用户点击播放时，音频内容直接来自第三方播客服务提供商。</p>
+            </div>
+
+            <div class="disclaimer-section">
+                <h2>©️ 版权说明</h2>
+                <p>本网站上展示的所有播客节目（包括但不限于节目名称、封面、描述、音频内容）的版权归属各播客主所有。PodWave 仅作为信息聚合工具，不对播客内容主张任何版权。</p>
+                <ul>
+                    <li>收听播客节目即表示您同意遵守各播客主设定的使用条款</li>
+                    <li>如需将播客内容用于其他目的，请直接联系相应播客主</li>
+                    <li>如您认为某内容侵犯了您的版权，请联系原播客主处理</li>
+                </ul>
+            </div>
+
+            <div class="disclaimer-section">
+                <h2>🔒 隐私说明</h2>
+                <p>PodWave 不会收集、存储或分享您的个人信息。您的偏好设置（收藏、历史记录、主题偏好）仅存储在您浏览器的本地存储中，我们无法访问这些数据。</p>
+            </div>
+
+            <div class="disclaimer-section">
+                <h2>⚠️ 使用风险</h2>
+                <p>使用本网站即表示您理解：</p>
+                <ul>
+                    <li>播客内容由第三方提供，我们无法控制其内容准确性或合法性</li>
+                    <li>播放第三方音频内容可能存在安全风险，请自行判断</li>
+                    <li>我们不对因使用本网站导致的任何直接或间接损失负责</li>
+                </ul>
+            </div>
+
+            <div class="disclaimer-section">
+                <h2>📱 PWA 使用</h2>
+                <p>当您将 PodWave 添加到主屏幕作为 PWA 应用时，请注意：背景播放功能依赖于您的设备和浏览器支持，某些设备或浏览器可能限制此功能。</p>
+            </div>
+
+            <div class="disclaimer-section">
+                <h2>🔗 第三方服务</h2>
+                <p>本网站使用以下第三方服务：</p>
+                <ul>
+                    <li><strong>iTunes Search API</strong> - 用于搜索播客内容，由 Apple Inc. 提供</li>
+                    <li><strong>rss2json API</strong> - 用于解析 RSS 订阅源</li>
+                    <li><strong>Vercel / GitHub Pages</strong> - 网站托管服务</li>
+                </ul>
+                <p>这些服务的使用受其各自服务条款和隐私政策约束。</p>
+            </div>
+
+            <div class="disclaimer-section">
+                <h2>📝 联系我们</h2>
+                <p>如果您对本免责声明有任何疑问，请通过以下方式联系我们：</p>
+                <p>邮箱：617630279@qq.com</p>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link">← 返回 PodWave</a>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p class="footer-copyright">© 2026 PodWave. 仅供个人学习使用。</p>
+        </div>
+    </footer>
+</body>
+</html>

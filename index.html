@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PodWave - Your Personal Podcast App</title>
-    <meta name="description" content="A beautiful podcast player for daily listening - morning and night">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PodWave">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="随时随地，自由聆听 - 发现海量播客，即刻播放">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -82,7 +87,7 @@
                 <span class="category-icon">💚</span>
                 <span class="category-name">治愈</span>
             </div>
-            <div class="category-card" id="refreshCard" onclick="refreshAllPodcasts()" title="刷新获取最新内容">
+            <div class="category-card" id="refreshCard" data-category="refresh" title="刷新获取最新内容">
                 <span class="category-icon">🔄</span>
                 <span class="category-name">刷新</span>
             </div>
@@ -96,6 +101,17 @@
             <input type="text" class="search-input" id="searchInput" placeholder="搜索播客名称、主题或关键词...">
         </div>
         <div class="search-results" id="searchResults"></div>
+    </section>
+
+    <!-- Search Results Section -->
+    <section class="podcast-section" id="searchResultsSection" style="display: none;">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title" id="searchResultsTitle">搜索结果</h2>
+                <p class="section-subtitle" id="searchResultsSubtitle">找到 0 个播客</p>
+            </div>
+        </div>
+        <div class="search-results-grid" id="searchResultsGrid"></div>
     </section>
 
     <!-- Podcast Grid Section -->
@@ -161,7 +177,6 @@
         </div>
     </div>
 
-    <!-- Timer Modal -->
     <!-- Timer Modal -->
     <div class="modal-overlay" id="timerModal">
         <div class="modal">
@@ -242,31 +257,25 @@
         <div class="toast" id="toast"></div>
     </div>
 
-    <!-- Floating Player Bar -->
-    <div class="floating-player" id="floatingPlayer" style="display: none;">
-        <div class="floating-player-content">
-            <div class="floating-info">
-                <div class="floating-cover" id="floatingCover">🎧</div>
-                <div class="floating-text">
-                    <div class="floating-title" id="floatingTitle">未播放</div>
-                    <div class="floating-time" id="floatingTime">0:00 / 0:00</div>
-                </div>
-            </div>
-            <div class="floating-controls">
-                <button class="floating-btn" onclick="playPrevious()">⏮️</button>
-                <button class="floating-btn floating-play" id="floatingPlayPause" onclick="togglePlayPause()">▶️</button>
-                <button class="floating-btn" onclick="playNext()">⏭️</button>
-            </div>
+
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p class="footer-disclaimer">
+                <span class="footer-icon">⚠️</span>
+                免责声明：本网站仅提供 RSS 播客内容聚合服务，不存储或产生任何音频内容。所有播客节目的版权归各节目主所有。
+                <a href="disclaimer.html" target="_blank" class="footer-link">了解更多</a>
+            </p>
+            <p class="footer-copyright">© 2026 PodWave. 仅供个人学习使用。</p>
         </div>
-        <div class="floating-progress" id="floatingProgress">
-            <div class="floating-progress-bar" id="floatingProgressBar" style="height: 100%; position: relative;">
-                <div class="floating-progress-fill" id="floatingProgressFill" style="height: 100%; background: var(--apple-blue); width: 0%;"></div>
-            </div>
-        </div>
-    </div>
+    </footer>
 
     <!-- Add Podcast FAB -->
-    <button class="add-podcast-btn" onclick="showAddRssModal()" title="Add Podcast">+</button>
+    <button class="add-podcast-btn" onclick="showAddRssModal()" title="添加播客">+</button>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top-btn" id="backToTopBtn" onclick="scrollToTop()" title="返回顶部">↑</button>
 
     <script src="app.js"></script>
     <script>
